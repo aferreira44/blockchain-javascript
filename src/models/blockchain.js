@@ -10,7 +10,7 @@ class Blockchain {
   }
 
   createGenesisHash () {
-    return new Block('01/01/2018', 'Genesis block', '0')
+    return new Block('01/01/2018', ['Genesis block'], '0')
   }
 
   getLatestBlock () {
@@ -36,8 +36,8 @@ class Blockchain {
   getBalanceOfAddress (address) {
     let balance = 0
 
-    for (const block of this.chain) {
-      for (const trans of block.transactions) {
+    this.chain.map((block) => {
+      block.transactions.map((trans) => {
         if (trans.toAddress === address) {
           balance += trans.amount
         }
@@ -45,8 +45,8 @@ class Blockchain {
         if (trans.fromAddress === address) {
           balance -= trans.amount
         }
-      }
-    }
+      })
+    })
 
     return balance
   }
